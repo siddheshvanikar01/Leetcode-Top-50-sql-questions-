@@ -1,0 +1,89 @@
+1. Recyclable and Low Fat Products
+
+Write a solution to find the ids of products that are both low fat and recyclable.
+
+select product_id from products where low_fats="Y" and recyclable="Y";
+______________________________________________________________________________________________________________________
+
+2.Find Customer Referee
+
+Find the names of the customer that are not referred by the customer with id = 2.
+
+a. select name from customer where name not in (select name from customer where referee_id =2);
+b. select name from customer where referee_id!=2 or   referee_id is null;
+_______________________________________________________________________________________________________________________
+3. Big Countries
+
+A country is big if:
+it has an area of at least three million (i.e., 3000000 km2), or
+it has a population of at least twenty-five million (i.e., 25000000).
+Write a solution to find the name, population, and area of the big countries.
+
+select name , population, area from world where population>=25000000 or area>=3000000 
+_______________________________________________________________________________________________________________________________
+4. Article Views I
+
+Write a solution to find all the authors that viewed at least one of their own articles. Return the result table sorted by id in ascending order.
+
+select author_id as id from views where author_id=viewer_id group by id order by id;
+_____________________________________________________________________________________________________________________________________________
+5. Invalid Tweets
+
+Write a solution to find the IDs of the invalid tweets. 
+The tweet is invalid if the number of characters used in the content of the tweet is strictly greater than 15.
+
+select tweet_id from tweets where length(content)>15;
+____________________________________________________________________________________________________________________________________________
+6. Replace Employee ID With The Unique Identifier
+
+Write a solution to show the unique ID of each user, If a user does not have a unique ID replace just show null
+
+select unique_id , name from employees left join EmployeeUNI using(id);
+________________________________________________________________________________________________________________________________________________
+7. Product Sales Analysis I
+
+Write a solution to report the product_name, year, and price for each sale_id in the Sales table.
+
+select product_name , year , price from sales join product using(product_id);
+________________________________________________________________________________________________________________________________________________
+8. Customer Who Visited but Did Not Make Any Transactions
+
+Write a solution to find the IDs of the users 
+who visited without making any transactions and 
+the number of times they made these types of visits
+
+select customer_id ,count(visit_id )count_no_trans from visits  left join transactions using(visit_id) 
+where transaction_id is null group by customer_id
+_____________________________________________________________________________________________________________________________________________________
+9. Rising Temperature
+
+Write a solution to find all dates' id with higher temperatures compared to its previous dates (yesterday)
+
+
+select w1.id from weather w1 ,weather w2 where datediff(w1.recordDate,w2.recordDate)=1
+AND w1.temperature >w2.temperature
+
+SELECT id FROM (
+    SELECT id, recordDate, temperature, 
+           LAG(temperature) OVER (ORDER BY recordDate) AS prev_temperature
+    FROM weather
+) AS temp_table
+WHERE temperature > prev_temperature;
+
+________________________________________________________________________________________________________________________________________________________
+10. There is a factory website that has several machines each running the same number of processes. 
+Write a solution to find the average time each machine takes to complete a process.
+The time to complete a process is the 'end' timestamp minus the 'start' timestamp. 
+The average time is calculated by the total time to complete every process on the machine divided by the number of processes that were run.
+The resulting table should have the machine_id along with the average time as processing_time, which should be rounded to 3 decimal places.
+
+SELECT 
+    s.machine_id, 
+    ROUND(AVG(e.timestamp-s.timestamp),3) as processing_time 
+FROM Activity s
+JOIN Activity e ON e.machine_id=s.machine_id
+WHERE s.activity_type='start' AND e.activity_type='end'
+GROUP BY s.machine_id
+________________________________________________________________________________________________________________________________________________________
+
+
