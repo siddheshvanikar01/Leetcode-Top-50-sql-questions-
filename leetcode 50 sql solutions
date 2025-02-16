@@ -71,7 +71,9 @@ SELECT id FROM (
 WHERE temperature > prev_temperature;
 
 ________________________________________________________________________________________________________________________________________________________
-10. There is a factory website that has several machines each running the same number of processes. 
+10. Average Time of Process per Machine
+
+There is a factory website that has several machines each running the same number of processes. 
 Write a solution to find the average time each machine takes to complete a process.
 The time to complete a process is the 'end' timestamp minus the 'start' timestamp. 
 The average time is calculated by the total time to complete every process on the machine divided by the number of processes that were run.
@@ -86,4 +88,10 @@ WHERE s.activity_type='start' AND e.activity_type='end'
 GROUP BY s.machine_id
 ________________________________________________________________________________________________________________________________________________________
 
+11. Employee Bonus
 
+Write a solution to report the name and bonus amount of each employee with a bonus less than 1000.
+
+SELECT Employee.name,Bonus.bonus FROM Employee 
+LEFT JOIN Bonus ON Employee.empID = Bonus.empID
+WHERE bonus < 1000 OR Bonus IS NULL ;
